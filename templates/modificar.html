@@ -1,23 +1,43 @@
 {% extends "layout.html" %}
 {% block container %}
-{% import "_macros.html" as macros %}
- 
-<form class="max-w-sm mx-auto mt-5" method="post" unvalidated>
-   {{form.csrf_token}}
-    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-  <div class="mb-5">
-    {{macros.campoNuevo(form.id, class="block mb-2.5 text-sm font-medium text-heading")}}
-  </div>
-  <div class="mb-5">
-    {{macros.campoNuevo(form.nombre, class="block mb-2.5 text-sm font-medium text-heading")}}
-  </div>
-  <div class="mb-5">
-    {{macros.campoNuevo(form.aPaterno, class="block mb-2.5 text-sm font-medium text-heading")}}
-  </div>
-    <div class="mb-5">
-    {{macros.campoNuevo(form.email, class="block mb-2.5 text-sm font-medium text-heading")}}
-  </div>
-  <button type="submit" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Modificar</button>
+{% import "_macros.html" as macros%}
+ 
+<form method="POST" action="/modificar?id={{ form.id.data }}" class="max-w-md mx-auto mt-10">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    
+    <div class="relative z-0 w-full mb-6 group">
+        {{ macros.camposNuevos(form.id, class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer cursor-not-allowed", readonly="readonly") }}
+    </div>
+
+    <div class="relative z-0 w-full mb-6 group">
+        {{ macros.camposNuevos(form.email, class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer") }}
+    </div>
+    
+    <div class="relative z-0 w-full mb-6 group">
+        {{ macros.camposNuevos(form.nombre, class= "block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" )}}
+    </div>
+
+    <div class="relative z-0 w-full mb-8 group">
+        {{ macros.camposNuevos(form.apellidos, class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" )}}
+    </div>
+    
+        <div class="flex gap-4">
+                <a href="{{ url_for('index') }}"
+            class="w-1/2 justify-center inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+            </svg>
+            Regresar
+        </a>
+
+        <button type="submit"
+            class="w-1/2 justify-center inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+            </svg>
+            Actualizar
+        </button>
+    </div>
 </form>
- 
+ 
 {% endblock %}
