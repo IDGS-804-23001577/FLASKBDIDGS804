@@ -41,10 +41,10 @@ def detalles():
         alum1 = db.session.query(Alumnos).filter(Alumnos.id==id).first()
         id=request.args.get('id')
         nombre=alum1.nombre
-        apaterno=alum1.apaterno
+        paterno=alum1.paterno
         email=alum1.email
    
-    return render_template('detalles.html', id=id, nombre=nombre, apaterno=apaterno, email=email, form=create_form)
+    return render_template('detalles.html', id=id, nombre=nombre, paterno=paterno, email=email, form=create_form)
        
  
 if __name__ == '__main__':
