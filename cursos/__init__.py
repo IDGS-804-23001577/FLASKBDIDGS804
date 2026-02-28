@@ -1,10 +1,11 @@
 from flask import Blueprint
 
-maestros=Blueprint(
-    'maestros',
+cursos = Blueprint(
+    'cursos',
     __name__,
     template_folder='templates',
-    static_folder='static')
+    static_folder='static'
+)
 
 
 from . import routes
