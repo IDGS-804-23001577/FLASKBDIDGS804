@@ -2,13 +2,13 @@
 {% block container %}
 {% import "_macros.html" as macros %}
 
-<form method="POST" action="/eliminar" class="max-w-md mx-auto mt-10">
+<form method="POST" action="{{ url_for('alumnos.eliminar') }}" class="max-w-md mx-auto mt-10">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     
-    <h2 class="text-xl font-bold text-center text-black-600 mb-6">¿Quieres eliminar este alumno?</h2>
+    <h2 class="text-xl font-bold text-center text-red-600 mb-6">¿Quieres eliminar este alumno?</h2>
 
     <div class="flex gap-4 mb-8">
-        <a href="{{ url_for('index') }}" class="w-1/2 justify-center inline-flex items-center text-gray-800 bg-gray-200 border border-transparent hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+        <a href="{{ url_for('alumnos.tabla') }}" class="w-1/2 justify-center inline-flex items-center text-gray-800 bg-gray-200 border border-transparent hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
             <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
             </svg>

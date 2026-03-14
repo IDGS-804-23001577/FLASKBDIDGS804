@@ -1,0 +1,99 @@
+{% extends "layout.html" %} 
+{% block container %}
+
+<div class="max-w-5xl mx-auto mt-10">
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Consulta de Inscripciones</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <form method="GET" action="{{ url_for('inscripciones.index') }}">
+                <label for="curso_id" class="block mb-2 text-sm font-medium text-gray-900">Buscar alumnos por Curso:</label>
+                <select name="curso_id" id="curso_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5" onchange="this.form.submit()">
+                    <option value="" disabled {% if not curso_seleccionado %}selected{% endif %}>-- Elige un curso --</option>
+                    {% for c in todos_cursos %}
+                        <option value="{{ c.id }}" {% if curso_seleccionado and curso_seleccionado.id == c.id %}selected{% endif %}>
+                            {{ c.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <form method="GET" action="{{ url_for('inscripciones.index') }}">
+                <label for="alumno_id" class="block mb-2 text-sm font-medium text-gray-900">Buscar cursos por Alumno:</label>
+                <select name="alumno_id" id="alumno_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5" onchange="this.form.submit()">
+                    <option value="" disabled {% if not alumno_seleccionado %}selected{% endif %}>-- Elige un alumno --</option>
+                    {% for a in todos_alumnos %}
+                        <option value="{{ a.id }}" {% if alumno_seleccionado and alumno_seleccionado.id == a.id %}selected{% endif %}>
+                            {{ a.nombre }} {{ a.apellidos }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+    </div>
+
+    {% if curso_seleccionado %}
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 relative overflow-x-auto">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Alumnos inscritos en: <span class="text-brand">{{ curso_seleccionado.nombre }}</span></h3>
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3">ID Alumno</th>
+                    <th scope="col" class="px-6 py-3">Nombre Completo</th>
+                    <th scope="col" class="px-6 py-3">Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in curso_seleccionado.alumnos %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900">{{ alumno.id }}</th>
+                    <td class="px-6 py-4">{{ alumno.nombre }} {{ alumno.apellidos }}</td>
+                    <td class="px-6 py-4">{{ alumno.email }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center italic text-gray-500">No hay alumnos inscritos en este curso todavía.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if alumno_seleccionado %}
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 relative overflow-x-auto">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Cursos de: <span class="text-brand">{{ alumno_seleccionado.nombre }} {{ alumno_seleccionado.apellidos }}</span></h3>
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3">ID Curso</th>
+                    <th scope="col" class="px-6 py-3">Materia</th>
+                    <th scope="col" class="px-6 py-3">Profesor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curso in alumno_seleccionado.cursos %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900">{{ curso.id }}</th>
+                    <td class="px-6 py-4">{{ curso.nombre }}</td>
+                    <td class="px-6 py-4">{{ curso.maestro.nombre }} {{ curso.maestro.apellidos }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center italic text-gray-500">Este alumno aún no está inscrito en ningún curso.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

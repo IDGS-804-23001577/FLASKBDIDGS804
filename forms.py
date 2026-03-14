@@ -1,50 +1,74 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, EmailField, validators
 
-class UserForm(Form):
-    id = IntegerField('id', [validators.number_range(min=1, max=20, message='valor no valido')])
-    nombre = StringField('nombre', [
-        validators.DataRequired(message='El nombre es requerido'),
-        validators.length(min=4, max=20, message='requiere min=4 max=20')
+class UserForm(FlaskForm):
+    id = IntegerField('ID', [
+        validators.Optional()
     ])
-    apellidos = StringField('apellidos' , [
-        validators.DataRequired(message='El apellido es requerido')
+    nombre = StringField('Nombre', [
+        validators.DataRequired(message='El nombre es obligatorio'),
+        validators.Length(min=4, max=20, message='El nombre debe tener entre 4 y 20 letras')
     ])
-    email = EmailField('correo', [
-        validators.DataRequired(message='El correo es requerido'),
-        validators.Email(message='Ingrese un correo valido')
+    apellidos = StringField('Apellidos' , [
+        validators.DataRequired(message='Los apellidos son obligatorios')
     ])
-    telefono = StringField('telefono', [
-        validators.DataRequired(message='El telefono es requerido')
+    email = EmailField('Correo Electrónico', [
+        validators.DataRequired(message='El correo electrónico es obligatorio'),
+        validators.Email(message='Ingrese una direccion de correo valida')
+    ])
+    telefono = StringField('Teléfono', [
+        validators.DataRequired(message='El número de teléfono es obligatorio'),
+        validators.Length(min=10, max=10, message='El teléfono debe tener exactamente 10 dígitos')
+    ])
+
+
+
+
+class MaestroForm(FlaskForm):
+    matricula = IntegerField('Matrícula', [
+        validators.Optional()
+    ])
+    nombre = StringField('Nombre', [
+        validators.DataRequired(message='El nombre es obligatorio')
+    ])
+    apellidos = StringField('Apellidos' , [
+        validators.DataRequired(message='Los apellidos son obligatorios')
+    ])
+    email = EmailField('Correo Electrónico', [
+        validators.DataRequired(message='El correo electrónico es obligatorio'),
+        validators.Email(message='Ingrese un correo válido')
+    ])
+    especialidad = StringField('Especialidad', [
+        validators.DataRequired(message='La especialidad es necesaria')
     ])
 
 
 
-class MaestroForm(Form):
-    matricula = IntegerField('matricula')
-    nombre = StringField('nombre', [
-        validators.DataRequired(message='El nombre es requerido')
+
+
+class CursoForm(FlaskForm):
+    id = IntegerField('ID')
+    nombre = StringField('Nombre del Curso', [
+        validators.DataRequired(message='El nombre del curso es obligatorio'),
+        validators.Length(min=4, max=150, message='El nombre debe tener entre 4 y 150 caracteres')
     ])
-    apellidos = StringField('apellidos' , [
-        validators.DataRequired(message='Los apellidos son requeridos')
+    descripcion = StringField('Descripción', [
+        validators.DataRequired(message='La descripción del curso es obligatoria')
     ])
-    email = EmailField('correo', [
-        validators.DataRequired(message='El correo es requerido'),
-        validators.Email(message='Ingrese un correo valido')
-    ])
-    especialidad = StringField('especialidad', [
-        validators.DataRequired(message='La especialidad es requerida')
+    maestro_id = IntegerField('ID del Maestro', [
+        validators.DataRequired(message='Debe asignar un maestro al curso')
     ])
 
-class CursoForm(Form):
-    id = IntegerField('id')
-    nombre = StringField('nombre', [
-        validators.DataRequired(message='El nombre del curso es requerido'),
-        validators.length(min=4, max=150, message='Requiere min=4 max=150')
+
+
+
+
+
+
+class InscripcionForm(FlaskForm):
+    alumno_id = IntegerField('ID del Alumno', [
+        validators.DataRequired(message='Debe seleccionar un alumno de la lista')
     ])
-    descripcion = StringField('descripcion', [
-        validators.DataRequired(message='La descripción es requerida')
-    ])
-    maestro_id = IntegerField('maestro_id', [
-        validators.DataRequired(message='La matrícula del maestro es requerida')
+    curso_id = IntegerField('ID del Curso', [
+        validators.DataRequired(message='Debe seleccionar un curso de la lista')
     ])

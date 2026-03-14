@@ -2,7 +2,7 @@
 {% block container %}
 {% import "_macros.html" as macros %}
 
-<form method="POST" action="{{ url_for('cursos.agregar') }}" class="max-w-md mx-auto mt-10">
+<form method="POST" action="{{ url_for('cursos.agregar') }}" class="max-w-md mx-auto mt-10" novalidate>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     
     <h2 class="text-xl font-bold text-center text-black-600 mb-6">Agregar Nuevo Curso</h2>
@@ -16,24 +16,25 @@
     </div>
 
     <div class="relative z-0 w-full mb-8 group">
-        {{ macros.camposNuevos(form.maestro_id, class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer") }}
-        <p class="mt-1 text-xs text-gray-500">Escribe la matrícula del maestro que impartirá el curso.</p>
+        <label for="maestro_id" class="block mb-2 text-sm font-medium text-gray-900">Selecciona al Maestro:</label>
+        <select name="maestro_id" id="maestro_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5">
+            <option value="" disabled selected>-- Elige un maestro --</option>
+            {% for m in maestros %}
+                <option value="{{ m.matricula }}">{{ m.nombre }} {{ m.apellidos }}</option>
+            {% endfor %}
+        </select>
+        
+        {% if form.maestro_id.errors %}
+            <p class="text-red-500 text-xs italic mt-1">* {{ form.maestro_id.errors[0] }}</p>
+        {% endif %}
     </div>
     
     <div class="flex gap-4">
-        <a href="{{ url_for('cursos.index') }}" 
-           class="w-1/2 justify-center inline-flex items-center text-gray-800 bg-gray-200 border border-transparent hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
-            <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
-            </svg>
+        <a href="{{ url_for('cursos.index') }}" class="w-1/2 text-center text-gray-800 bg-gray-200 box-border border border-transparent hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
             Cancelar
         </a>
         
-        <button type="submit" 
-           class="w-1/2 justify-center inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
-            <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
-            </svg>
+        <button type="submit" class="w-1/2 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
             Agregar
         </button>
     </div>
