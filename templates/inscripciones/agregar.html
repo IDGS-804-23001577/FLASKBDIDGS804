@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<form method="POST" action="{{ url_for('cursos.inscribir') }}" class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md border border-gray-200" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <h2 class="text-xl font-bold text-center text-gray-800 mb-6">Formulario de Inscripción</h2>
+
+    <div class="relative z-0 w-full mb-6 group">
+        <label for="alumno_id" class="block mb-2 text-sm font-medium text-gray-900">1. Selecciona el Alumno:</label>
+        <select name="alumno_id" id="alumno_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5">
+            <option value="" disabled selected>-- Elige un alumno --</option>
+            {% for a in alumnos %}
+                <option value="{{ a.id }}">{{ a.nombre }} {{ a.apellidos }}</option>
+            {% endfor %}
+        </select>
+        {% if form.alumno_id.errors %}
+            <p class="text-red-500 text-xs italic mt-1">* {{ form.alumno_id.errors[0] }}</p>
+        {% endif %}
+    </div>
+
+    <div class="relative z-0 w-full mb-8 group">
+        <label for="curso_id" class="block mb-2 text-sm font-medium text-gray-900">2. Selecciona el Curso:</label>
+        <select name="curso_id" id="curso_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5">
+            <option value="" disabled selected>-- Elige un curso --</option>
+            {% for c in cursos %}
+                <option value="{{ c.id }}">{{ c.nombre }}</option>
+            {% endfor %}
+        </select>
+        {% if form.curso_id.errors %}
+            <p class="text-red-500 text-xs italic mt-1">* {{ form.curso_id.errors[0] }}</p>
+        {% endif %}
+    </div>
+    
+    <div class="flex gap-4">
+        <a href="{{ url_for('cursos.index') }}" class="w-1/2 text-center text-gray-800 bg-gray-200 box-border border border-transparent hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            Cancelar
+        </a>
+        
+        <button type="submit" class="w-1/2 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            Guardar Inscripción
+        </button>
+    </div>
+</form>
+
+{% endblock %}

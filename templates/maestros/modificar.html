@@ -2,7 +2,7 @@
 {% block container %}
 {% import "_macros.html" as macros %}
 
-<form method="POST" action="/maestros_modificar?id={{ form.matricula.data }}" class="max-w-md mx-auto mt-10">
+<form method="POST" action="{{ url_for('maestros.modificar', id=form.matricula.data) }}" class="max-w-md mx-auto mt-10" novalidate>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     
     <div class="relative z-0 w-full mb-6 group">
